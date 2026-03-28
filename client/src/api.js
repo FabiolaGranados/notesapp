@@ -13,7 +13,6 @@ export const addNote = async (text) => {
     },
     body: JSON.stringify({ text }),
   });
-
   return res.json();
 };
 
