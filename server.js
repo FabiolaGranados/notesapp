@@ -1,12 +1,13 @@
 import express from "express";
 import cors from "cors";
 
-const app = express()
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(cors()); // allow frontend requests
-app.use(express.json()); // parse JSON
+app.use(cors());
+app.use(express.json());
 
-let notes = []; // in-memory storage
+let notes = [];
 
 // Get all notes
 app.get("/notes", (req, res) => {
@@ -17,6 +18,7 @@ app.get("/notes", (req, res) => {
 app.post("/notes", (req, res) => {
   const { text } = req.body;
   if (!text) return res.status(400).json({ error: "Text required" });
+
   const newNote = { id: Date.now(), text };
   notes.push(newNote);
   res.json(newNote);
