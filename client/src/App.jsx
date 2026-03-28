@@ -6,52 +6,56 @@ export default function App() {
   const [notes, setNotes] = useState([]);
   const [input, setInput] = useState("");
 
+  // Load notes from backend when component mounts
   useEffect(() => {
+    async function fetchNotes() {
+      const data = await getNotes();
+      setNotes(data);
+    }
     fetchNotes();
   }, []);
 
-  const fetchNotes = async () => {
-    const data = await getNotes();
-    setNotes(data);
-  };
-
+  // Add new note
   const handleAdd = async () => {
-    if (!input) return;
-
+    if (!input.trim()) return; // ignore empty
     const newNote = await addNote(input);
-
-    setNotes([...notes, newNote]);
-    setInput("");
+    if (newNote) {
+      setNotes([...notes, newNote]);
+      setInput("");
+    }
   };
 
+  // Delete note
   const handleDelete = async (id) => {
-    await deleteNote(id);
-    setNotes(notes.filter((note) => note.id !== id));
+    const success = await deleteNote(id);
+    if (success) {
+      setNotes(notes.filter((note) => note.id !== id));
+    }
   };
 
   return (
     <div className="app">
-      <h1>Notes App</h1>
+      <h1>My Notes App</h1>
 
       <div className="input-container">
         <input
+          type="text"
+          placeholder="Type a note..."
           value={input}
-          placeholder="Write a note..."
           onChange={(e) => setInput(e.target.value)}
         />
         <button onClick={handleAdd}>Add</button>
       </div>
 
-      <ul>
+      <div className="notes-container">
+        {notes.length === 0 && <p>No notes yet.</p>}
         {notes.map((note) => (
-          <li key={note.id}>
-            {note.text}
-            <button onClick={() => handleDelete(note.id)}>
-              Delete
-            </button>
-          </li>
+          <div key={note.id} className="note">
+            <span>{note.text}</span>
+            <button onClick={() => handleDelete(note.id)}>Delete</button>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
