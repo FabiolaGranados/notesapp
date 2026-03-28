@@ -11,7 +11,7 @@ Add notes instantly
 
 Delete notes
 
-Real-time UI updates
+Real time UI updates
 
 Clean, modern, responsive design
 
@@ -37,18 +37,7 @@ How it works:
 
 Frontend renders UI with React, manages notes state with useState, fetches data with useEffect, and updates dynamically.
 
-Backend uses Express to handle GET, POST, and DELETE routes. Notes are stored temporarily in memory.
-
-
-
-API Endpoints:
-
-GET /notes → fetch all notes
-
-POST /notes → create a note
-
-DELETE /notes/:id → delete a note
-
+Backend uses Express to handle GET, POST, and DELETE routes. Notes are stored temporarily in memory
 
 
 What I learned:
