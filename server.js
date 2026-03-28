@@ -1,8 +1,7 @@
 import express from "express";
 import cors from "cors";
 
-const app = express();
-const PORT = 5000;
+const app = express()
 
 app.use(cors()); // allow frontend requests
 app.use(express.json()); // parse JSON
