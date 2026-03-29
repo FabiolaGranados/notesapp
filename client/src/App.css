@@ -5,30 +5,30 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 40px;
+  align-items: center;
 }
 
 .app {
   background: white;
   padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 600px;
+  border-radius: 18px;
+  width: 420px;
   box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
   text-align: center;
   margin-top: 0;
-  margin-bottom: 20px;
   color: #333;
+  font-size: 28px;
 }
 
 .input-container {
   display: flex;
   gap: 10px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 input {
@@ -44,65 +44,60 @@ input:focus {
   border-color: #5f9cff;
 }
 
-button {
-  border: none;
-  padding: 10px 14px;
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.2s ease;
-}
-
 .add-btn {
   background: #5f9cff;
+  color: white;
 }
 
 .add-btn:hover {
   background: #4a7fe0;
 }
 
-ul.notes-list {
+button {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
 }
 
-li.note-item {
+li {
   background: #f8f9ff;
-  padding: 14px 16px;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  transition: 0.3s ease, transform 0.2s ease;
+  transition: 0.2s ease, transform 0.2s ease;
   cursor: grab;
 }
 
-li.note-item:active {
+li:active {
   cursor: grabbing;
-  transform: scale(1.02);
-  box-shadow: 0 14px 28px rgba(0,0,0,0.15);
 }
 
-li.note-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
 }
 
 .note-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .note-text {
   font-size: 15px;
   color: #333;
+  word-break: break-word;
 }
 
 .note-actions {
@@ -112,6 +107,7 @@ li.note-item:hover {
 
 .delete-btn {
   background: #ff5f5f;
+  color: white;
 }
 
 .delete-btn:hover {
@@ -120,6 +116,7 @@ li.note-item:hover {
 
 .edit-btn {
   background: #ffaa33;
+  color: black;
 }
 
 .edit-btn:hover {
@@ -135,6 +132,7 @@ li.note-item:hover {
 .no-notes {
   text-align: center;
   color: #666;
-  font-size: 14px;
+  font-style: italic;
 }
+
 
