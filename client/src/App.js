@@ -19,7 +19,7 @@ export default function App() {
   const handleAdd = async () => {
     if (!input.trim()) return;
     const newNote = await addNote(input);
-    if (newNote) setNotes([...notes, newNote]);
+    if (newNote) setNotes([...notes, { ...newNote, timestamp: new Date() }]);
     setInput("");
   };
 
@@ -40,6 +40,11 @@ export default function App() {
   };
 
   const handleDragEnd = () => setDragging(null);
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  };
 
   return (
     <div className="app">
@@ -78,6 +83,9 @@ export default function App() {
                   </button>
                 </div>
               </div>
+              <div className="timestamp">
+                {note.timestamp ? formatDate(note.timestamp) : "Just now"}
+              </div>
             </li>
           ))}
         </ul>
@@ -85,4 +93,5 @@ export default function App() {
     </div>
   );
 }
+
 
