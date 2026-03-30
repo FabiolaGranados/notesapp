@@ -13,13 +13,13 @@ export default function App() {
 
   const fetchNotes = async () => {
     const data = await getNotes();
-    setNotes(data);
+    setNotes(data.map(note => ({ ...note, column: "To Do" }))); 
   };
 
   const handleAdd = async () => {
     if (!input.trim()) return;
     const newNote = await addNote(input);
-    if (newNote) setNotes([...notes, { ...newNote, timestamp: new Date() }]);
+    if (newNote) setNotes([...notes, { ...newNote, column: "To Do" }]);
     setInput("");
   };
 
@@ -30,25 +30,19 @@ export default function App() {
 
   const handleDragStart = (index) => setDragging(index);
 
-  const handleDragEnter = (index) => {
-    if (dragging === null || dragging === index) return;
+  const handleDrop = (column) => {
+    if (dragging === null) return;
     const newNotes = [...notes];
-    const moved = newNotes.splice(dragging, 1)[0];
-    newNotes.splice(index, 0, moved);
-    setDragging(index);
+    newNotes[dragging].column = column;
     setNotes(newNotes);
+    setDragging(null);
   };
 
-  const handleDragEnd = () => setDragging(null);
-
-  const formatDate = (date) => {
-    const d = new Date(date);
-    return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-  };
+  const columns = ["To Do", "In Progress", "Done"];
 
   return (
     <div className="app">
-      <h1>Notes App</h1>
+      <h1>My Notes Board</h1>
 
       <div className="input-container">
         <input
@@ -59,37 +53,31 @@ export default function App() {
         <button className="add-btn" onClick={handleAdd}>Add</button>
       </div>
 
-      {notes.length === 0 ? (
-        <p className="no-notes">No notes yet!</p>
-      ) : (
-        <ul className="notes-list">
-          {notes.map((note, index) => (
-            <li
-              key={note.id}
-              className="note-item"
-              draggable
-              onDragStart={() => handleDragStart(index)}
-              onDragEnter={() => handleDragEnter(index)}
-              onDragEnd={handleDragEnd}
-            >
-              <div className="note-top">
+      <div className="board">
+        {columns.map((col) => (
+          <div
+            key={col}
+            className="column"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={() => handleDrop(col)}
+          >
+            <h2>{col}</h2>
+            {notes
+              .filter(note => note.column === col)
+              .map((note, index) => (
+              <div
+                key={note.id}
+                className="note-item"
+                draggable
+                onDragStart={() => handleDragStart(notes.findIndex(n => n.id === note.id))}
+              >
                 <span className="note-text">{note.text}</span>
-                <div className="note-actions">
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(note.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
+                <button className="delete-btn" onClick={() => handleDelete(note.id)}>Delete</button>
               </div>
-              <div className="timestamp">
-                {note.timestamp ? formatDate(note.timestamp) : "Just now"}
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
